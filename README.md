@@ -761,6 +761,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 ```
+## CAPTURAMOS LOS DATOS 
+
 ### CONECTAMOS build conecta directo a firebase Real Time Database via 
 
 En lugar de usar initState()y setState() para nuestras necesidades, Flutter viene con un práctico Widget llamado StreamBuilder. Como habrás adivinado, toma una función de Stream y una de builder, llamándola cada vez que un nuevo valor es emitido por el Stream. No necesitamos initStateo dispose para eso:
@@ -788,21 +790,203 @@ en state
 DatabaseReference _nodoRef = FirebaseDatabase.instance.reference().child('SensorHumedad');
 ```
 
-
-El dato de snapshot que obtenemos es tipo JSON, SE DEBE CONVERTIR EL JSON A OBJETO JSON 
+### El dato de snapshot que obtenemos es tipo JSON, SE DEBE CONVERTIR EL JSON A OBJETO JSON 
 //Entonces creamos un modelo de objeto : Creo archivo nodo.dart
+```
+class Nodo{
+  final double temperatura;
+  final double humedad;
+  final double nivelDioxidoCarbono;
+```
+//Se inicializa con estos valores para hacer un objeto de esta clase
+```
+  Nodo({this.temperatura, this.humedad, this.nivelDioxidoCarbono});
+```
+// Usamos keyword" factory " cuando no es necesario retornar una nueva instancia de la clase
 
+```
+factory Nodo.fromJson(Map<dynamic, dynamic> json) {
+```
+//Haré un analizador que cambie cualquier valor de datos al tipo doble. Siempre es necesario un manejo de excepciones, con valores extraños provenientes del hardware
+```
+    double parser(dynamic source) {
+      try {
+        return double.parse(source.toString());
+      } on FormatException {
+        return -1;
+      }
+      }
+```
+//Por ultimo retornamos el dato JSON parselado par completar el objeto
+```
+    return Nodo(
+      temperatura: parser(json['temperatura']),
+      humedad: parser(json['humedad']),
+      nivelDioxidoCarbono: parser(json['nivelDioxidoCarbono']),
+    );
+```
+### EN nodo_page.dart 
+- IMPOORTAMOS Nodo.dart
+```
+import 'nodo.dart';
 
+```
+- Y modificamos stremaBuilder:
+```
+StreamBuilder(
+  stream: _bdRef.onValue,
+  builder: (context, snapshot) {
+    if (snapshot.hasData &&
+        !snapshot.hasError &&
+        snapshot.data.snapshot.value != null) {
+      print(
+          'snapshot data: ${snapshot.data.snapshot.value.toString()}');
+var _nodod = Nodo.fromJson(snapshot.data.snapshot.value['Json']);
+print("Nodo: ${_nodo.temperatura}/${}")
+    } else {}
+    return Container();
+  },
 
-## Getting Started
+```
 
-This project is a starting point for a Flutter application.
+## TRABAJAMOS CON TAB BAR PARA MOSTRAR LOS DATOS
+Ya capturamos la data AHORA  TRABAJAMOS para mostrar los datos usamos CON TAB BAR 
+### 1.  se crea un TabController paar controlar el TabBar. Par esto es necesario SingleTickerProviderStateMixin.
+Usamo la keyword "with" para usar la clase como mixin
+```
+TabController _tabController;
+  with SingleTickerProviderStateMixin {
+TabController _tabController;
+int tabIndex = 0;
+INICIALIZAR EN InitState() y remover de dispose()
+@override
+void initState() {
+  super.initState();
+  _tabController = TabController(length: 2, vsync: this);
+}
 
-A few resources to get you started if this is your first Flutter project:
+@override
+void dispose() {
+  // TODO: implement dispose
+  _tabController.dispose();
+  super.dispose();
+}
+```
+### 2. TRABAJAMOS EN SCAFFOLD CON appBar:  
+CREAMOS AppBar in trhe mainScaffold, insertamos TabBar al prinicpio, y registramos el _tabController
+```
+appBar: AppBar(
+  title: Text('Iot App Flutter'),
+  bottom: TabBar(
+    controller: _tabController,
+  ),
+),
+```
+En Tap Bar como boton para cambiar el valor de tabIndex, y redibujar la pantalla
+```
+onTap: (int index) {
+  setState(() {
+    tabIndex = index;
+  });
+},
+tabs: [
+  Tab(
+    icon: Icon(Icons.access_alarm),
+  ),
+  Tab(
+    icon: Icon(Icons.add),
+  ),
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+```
+### 3. The StreamBuilder ahora usa Indexedstack() para mostrar 2 pantallas diferentes de acuerdo al tabIndex. 
+Si no hay datos entonces mostra un pantala muerta
+```
+StreamBuilder(
+  stream: _bdRef.onValue,
+  builder: (context, snapshot) {
+    if (snapshot.hasData &&
+        !snapshot.hasError &&
+        snapshot.data.snapshot.value != null) {
+      print(
+          'snapshot data: ${snapshot.data.snapshot.value.toString()}');
+      var _nodo = Nodo.fromJson(
+          snapshot.data.snapshot.value['Json']);
+      print(
+          "Nodo: ${_nodo.temperatura}/${_nodo.humedad}/${_nodo.fecha}");
+      return IndexedStack(
+        index: tabIndex,
+        children: [],
+      );
+    } else {
+      return Center(
+        child: Text('No hay datos aun'),
+      );
+    }
+    return Container();
+  },
+),
+```
+### 4. SE HACE UNA FUCNOI WIDGET  PARA MOSTRAR GRAFICA DE TEMPERATURA Y HUMEDAD
+```
+Widget _temperaturaLayout(Nodo _nodo) {
+  return Center(
+    child: Text('ES TEMPERATURA LAYOUT'),
+  );
+}
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Widget _humedadLayout(Nodo _nodo) {
+  return Center(
+    child: Text('ES HUMEDAD LAYOUT LAYOUT'),
+  );
+}
+```
+y 
+```
+return IndexedStack(
+  index: tabIndex,
+  children: [
+    _humedadLayout(_nodo),
+    _temperaturaLayout(_nodo)
+  ],
+);
+```
+## GRAFICAS
+
+### Par mostar graficas usamos 
+
+- [Flutter animation](https://pub.dev/packages?q=flutter+animation)
+- [Flutter animation Progress Bar](https://pub.dev/packages/flutter_animation_progress_bar)
+### Modificamos el pubspec.yaml
+COPIAMOS AEN EL archivo pubspec.yaml
+```
+flutter_animation_progress_bar: ^1.0.5 
+```
+- POR ULTIMO SOLO getpackages
+- IMPORTAMOS EL NUEVO PACKAGE
+```
+import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
+```
+USAMOS CWIDGET COLUMNA PARA INSERTAR Txt-FAProgressBar-Text y widget eEXPANDED PAAR MOSTRAR FAProgressBar los mas grande
+
+```
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: FAProgressBar(
+                progressColor: Colors.pinkAccent.shade100,
+                backgroundColor: Colors.grey,
+                direction: Axis.vertical,
+                verticalDirection: VerticalDirection.up,
+                size: 100,
+                currentValue: _nodo.temperatura.round(),
+                changeColorValue: 70,
+                changeProgressColor: Colors.pink,
+                maxValue: 100,
+                displayText: ' °C',
+                borderRadius: 16,
+                animatedDuration: Duration(milliseconds: 500),
+              ),
+            ),
+          ),
+```
+
