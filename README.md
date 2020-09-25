@@ -16,8 +16,7 @@ Para poder realizar este sistema se seguiran los siguientes pasos:
 
 ![APP OIOT 2](https://user-images.githubusercontent.com/39227411/94284199-08ce5e00-ff20-11ea-994b-5f62b66ed384.png)
  
-# RECOLECTAR DATOS
-![nodo](https://user-images.githubusercontent.com/39227411/94294499-eb07f580-ff2d-11ea-9109-bbca0149468f.PNG)
+# 1. RECOLECTAR DATOS
 
 ## Materiales
 
@@ -25,28 +24,33 @@ Para poder realizar este sistema se seguiran los siguientes pasos:
 - Sensor de humedad FC-28
 - Sensor de temperatura
 - Sensor de CO
+- Protoboard
+- Bateria de 12 V
+- Cbles macho hembra, macho macho
+- Leds
+
+## Esquema de conexión
+
+A continuacion se detalla el esquema de conexiones
+- ESQUEMA
+![ESQUEMA ADRIANA](https://user-images.githubusercontent.com/39227411/94286695-5a2c1c80-ff23-11ea-8307-24cc3ad62727.png)
 
 ## Recolección de datos del medio
+- NODO
+![nodo](https://user-images.githubusercontent.com/39227411/94294499-eb07f580-ff2d-11ea-9109-bbca0149468f.PNG)
 
+```
 El sensor mide los cambios fisicos del medio ambiente
-
+```
+- SENSOR YL 69
 Para eso mediremos la humedad del suelo con el YL-69,sensor que mide la humedad del suelo por la variación de su conductividad.
 
 - YL-69 permite obtener la medición como valor analógico o como una salida digital.
 - Valores obtenidos van desde 0 sumergido en agua, a 1023 en el aire (o en un suelo muy seco). Un suelo ligeramente húmero daría valores típicos de 600-700. Un suelo seco tendrá valores de 800-1023.
 
-## Esquema de conexión
-
-A continuacion se detalla el esquema de conexiones
-
-![ESQUEMA ADRIANA](https://user-images.githubusercontent.com/39227411/94286695-5a2c1c80-ff23-11ea-8307-24cc3ad62727.png)
-
-### Como usamos el como placa el modulo esp8266 se debe considerar lo siguiente: 
-
-![NodeMCU-–-Board-de-desarrollo-con-módulo-ESP8266-WiFi-y-Lua-4](https://user-images.githubusercontent.com/39227411/94286704-5bf5e000-ff23-11ea-8493-580febe486a4.png)
-
 ### Y en el Ide arduino se debe realizar las configuraciones de: 
--Placa 
+-Placa  
+Se debe agregar la placa en el IDE
 
 ![arduino 1](https://user-images.githubusercontent.com/39227411/94287093-e2aabd00-ff23-11ea-8af8-152246f7923d.PNG)
 
@@ -54,8 +58,11 @@ A continuacion se detalla el esquema de conexiones
 ![arduino placas](https://user-images.githubusercontent.com/39227411/94287098-e3dbea00-ff23-11ea-8c00-89fda65d8ac3.PNG)
 
 
-### Codigo en Arduino Leer Datos sensores
+### Codigo en IDE Arduino 
+-Primero se debe onsiderar los pines ya que Usaremos placa  modulo esp8266 
 
+![NodeMCU-–-Board-de-desarrollo-con-módulo-ESP8266-WiFi-y-Lua-4](https://user-images.githubusercontent.com/39227411/94286704-5bf5e000-ff23-11ea-8493-580febe486a4.png)
+####  Leer Datos sensores
 ```
 #include <ESP8266WiFi.h>
 
@@ -84,9 +91,9 @@ void loop() {
 }
 ```
 
-# SUBIR INFROMACION A FIREBASE (REAL TIME DATA BASE )
+# 2. SUBIR INFORMACION A FIREBASE (REAL TIME DATA BASE )
 
-PROBLEMA comunicación entre el microcontrolador y la aplicación de software
+PROBLEMA comunicación entre el microcontrolador y la aplicación de software 
 
 ## Firebase 
 
@@ -121,32 +128,18 @@ Base de datos alojada en la nube con datos almacenados como JSON. Proporciona un
 
 - Libreria Esp8266 [`Libreria Firebase-ESP8266`](https://github.com/mobizt/Firebase-ESP8266)
 
-Agregamos la libreria en el ide
+- Agregamos la libreria en el ide
 
 ![firebase 2 libreria](https://user-images.githubusercontent.com/39227411/94290126-cad53800-ff27-11ea-9559-ddf240ee75e6.PNG)
 
 ## Codigo para la placa
-
-### Incluimos la libreria
- ```
- //FirebaseESP8266.h must be included before ESP8266WiFi.h
-#include "FirebaseESP8266.h"
-
- ```
-### Configurar y declara las siguientes variables para ejecutar el ejemplo
-```
-#define FIREBASE_HOST "example.firebaseio.com"
-#define FIREBASE_AUTH "token_or_secret"
-#define WIFI_SSID "SSID"
-#define WIFI_PASSWORD "PASSWORD"
-```
-### Para eso nos dirigimos a la consola de firebase 
-
+ANTES!!!!!!!!
+### INICIAR CON FIREBASE
+Para eso nos dirigimos a la consola de firebase 
 [`Consola de FIREBASE`](https://console.firebase.google.com/)
 #### 1. Crear un proyecto de Firebase
 
-
-###### Creación de un Proyecto de Firebase
+- Creación de un Proyecto de Firebase
 
   - Consola de Firebase
   
@@ -154,22 +147,11 @@ Agregamos la libreria en el ide
   
   - Agregar Proyecto
   
-  ![AGREGAR PROYECTO](https://user-images.githubusercontent.com/39227411/87821025-2060da80-c83d-11ea-836b-4ed5d090139f.PNG)
+![AGREGAR PROYECTO](https://user-images.githubusercontent.com/39227411/87821025-2060da80-c83d-11ea-836b-4ed5d090139f.PNG)
   
 ![21](https://user-images.githubusercontent.com/39227411/87821729-56528e80-c83e-11ea-8d92-5cd3cf20fcb5.PNG)
 
 ![23](https://user-images.githubusercontent.com/39227411/87821734-581c5200-c83e-11ea-848f-5f46edd6efdc.PNG)
-
-  - HABILITAMOS HERRAMIENTAS: DATABASE Y STORAGE EN LA CONSOLA
-  
-
-![24](https://user-images.githubusercontent.com/39227411/87821775-666a6e00-c83e-11ea-8f98-e14acfcc7a96.PNG)
-
-![25](https://user-images.githubusercontent.com/39227411/87821783-679b9b00-c83e-11ea-9b65-ebc25d8aa256.PNG)
-
-![26](https://user-images.githubusercontent.com/39227411/87821787-68ccc800-c83e-11ea-8363-3c9a810651f8.PNG)
-
-
 
 
 - En Firebase console, haz clic en Agregar proyecto y selecciona o ingresa el Nombre del proyecto, y continuar.
@@ -181,7 +163,7 @@ Agregamos la libreria en el ide
 
 
 
-### 2. Habilitar Firebase Realtime Database base de datos 
+#### 2. Habilitar Firebase Realtime Database base de datos 
 
 - Pasos a seguir en la CONSOLA DE FIREBASE
 - Activar Firebase Realtime Database
@@ -199,13 +181,29 @@ CLAVE
 
 ![firebase1](https://user-images.githubusercontent.com/39227411/94290716-94e48380-ff28-11ea-8aec-7072cdb17533.PNG)
 
-### Define FirebaseESP8266 data object
+### CODIGO ARDUINO 
+UNA VEZ inicialisamos Firebase continuamos con arduino
+#### Incluimos la libreria
+ ```
+ //FirebaseESP8266.h must be included before ESP8266WiFi.h
+#include "FirebaseESP8266.h"
+
+ ```
+#### Configurar y declara las siguientes variables para ejecutar el ejemplo
+```
+#define FIREBASE_HOST "example.firebaseio.com"
+#define FIREBASE_AUTH "token_or_secret"
+#define WIFI_SSID "SSID"
+#define WIFI_PASSWORD "PASSWORD"
+```
+
+#### Define FirebaseESP8266 data object
 ```
 FirebaseData firebaseData;
 void printJsonObjectContent(FirebaseData &data);
 FirebaseJson json;
 ```
-### Definimos las variables a usar
+#### Definimos las variables a usar
 
 ```
 //RUTA 
@@ -229,7 +227,7 @@ int agua = 5; //d1
 int calor = 4; //d2
 ```
 
-### En SETUP colocaremos el código de configuración que se ejecutara una vez:
+#### En SETUP colocaremos el código de configuración que se ejecutara una vez:
 ```
   Serial.begin(115200);
 
@@ -250,7 +248,7 @@ int calor = 4; //d2
   Firebase.reconnectWiFi(true);
   
 ```
-###  Continuacion trabajamos en Void LOOP
+####  Continuacion trabajamos en Void LOOP
 
 Donde  almacenaremos los datos recolectados por los sensores a firebase
 
@@ -276,7 +274,7 @@ Se tiene las siguinetes operaciones co Real tiem data base
   ```
 
 
-### Por ultimo se debe capturar los datos que vienen de firebase real time database 
+#### Por ultimo se debe capturar los datos que vienen de firebase real time database 
 ```
 if (Firebase.getInt(firebaseData, "/agua/button")) {
 
@@ -301,16 +299,16 @@ if (Firebase.getInt(firebaseData, "/agua/button")) {
   }
 
 ```
-# CONEXION CON FIREBASE Y FLUTTER
+# 3. CONEXION CON FIREBASE Y FLUTTER
 
 ## FLUTTER
 DESARROLLO MOVIL 
 Flutter orientado para  desarrollo de aplicaciones moviles androids and ios de forma nativa ,mucho mas rapidas y eficaces ya que todo el codigo de interfaz movil lo transfiere al lenguaje c capa mas baja en android y swift.
 
-## Requerimientos
+### Requerimientos
 
 - Editor de código: Android Studio o VS Code
-1. Instalar SDK Flutter
+#### 1. Instalar SDK Flutter
 SDK de para flutter
 - Windows 7
 - Disco Duro 400 MB  10 GB
@@ -318,56 +316,62 @@ SDK de para flutter
 [git](https://git-scm.com/download/win)
 - Instalar el dsk de Flutter
 [Flutter](https://flutter.dev/docs/get-started/install/windows)
-2. Instalar Android Studio
+#### 2. Instalar Android Studio
 
 [Android Studio](https://developer.android.com/studio)
-3. Emulador de Android Instalar
+#### 3. Emulador de Android Instalar
 O  los siguientes dispositivos:
 - Un dispositivo físico (es decir, un teléfono móvil): Android o iOS
 - El simulador de iOS (requiere la instalación de herramientas Xcode)
 - El emulador de Android (requiere instalación y configuración en Android Studio)
 
-4. Verificar
-Click a: flutter_console
+#### 4. Verificar
+Verificamos en  flutter_console on cmd previo modificacion de Variables de entorno
 ```
 flutter --version
 flutter doctor
 ```
+## A. CREAMOS UN PROYECTO DE FLUTTER EN ANDROID STUDIO
+- A new Flutter application.
 
-- FlutterFire
+![creando app android](https://user-images.githubusercontent.com/39227411/94311280-fa486c80-ff48-11ea-8cec-38a61f5bc991.PNG)
 
-Flutter tiene soporte oficial para Firebase con el conjunto de bibliotecas FlutterFire
-
-A new Flutter application.
 ![3](https://user-images.githubusercontent.com/39227411/94302520-548e0100-ff3a-11ea-84ba-9b8423fad795.png)
 
-## Agrega Firebase a tu app de Flutter
+## B. Agrega Firebase a tu app de Flutter
 
 [More info...](https://firebase.google.com/docs/flutter/setup?hl=es)
-### Crea un proyecto de Firebase
+
+### B1. Crea un proyecto de Firebase
 Para poder agregar Firebase a tu app de Flutter, debes crear un proyecto de Firebase y conectarlo a la app. 
 1.	Go to console
 2.	Add Project
 3.	Create Project
 4. Activar Firebase Real Time Database
-### 	Add firebase to our app
+### B2. 	Add firebase to our app
 Android and ios
-##### ANDROID FOLDER ==>  APP ==> build.gradle
+[More info...](https://firebase.google.com/docs/flutter/setup?hl=es)
 
+- ANDROID FOLDER ==>  APP ==> build.gradle
+
+0. defaultCConfig{
+applicationId ”xxxxxxxxxxxxxxx”}
+1.	Add firebase a app android
+Android package name: xxxxxxxxxxxxxxx} 	
+2. Register app
+3. Dowload config, decargar archive “google-services.json” y copio a androidapp
+
+### B3. Definir librerias o packages a usar
 A nivel de proyecto el fichero más importante es pubspec.yaml. En el definiremos las dependencias con librerías de terceros o plugins para acceder al hardware del dispositivo móvil. También será el lugar para definir los assets de nuestro proyecto
 
 ![Estructura](https://user-images.githubusercontent.com/39227411/94305409-1e06b500-ff3f-11ea-8fa9-25c12e34f3b4.PNG)
 
-defaultCConfig{
-applicationId ”xxxxxxxxxxxxxxx”}
-6.	Add firebase a app android
-Android package name: xxxxxxxxxxxxxxx} 	
-7.Register app
-8. Dowload config, decargar archive “google-services.json” y copio a androidapp
 ## ESTRUCTURA PROYECTO EN FLUTTER
 [WIDGETS](https://flutter.dev/docs/development/ui/widgets)
 
-### main.dart 
+# CODEAMOS EN FLUTTER
+
+### Archivo principal main.dart se encuentra la funcion principal main 
 
 Que será el encargado de iniciar nuestra aplicación
 ```
@@ -392,7 +396,8 @@ class MyApp extends StatelessWidget {
 
 ```
 
-### nodo_page.dart
+### CONEXION CON FIREBASE PARA MOSTRA DATOS 
+- Trabajamos en  nodo_page.dart
 ```
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -738,6 +743,9 @@ class Nodo {
 }
 
 ```
+- FlutterFire
+
+Flutter tiene soporte oficial para Firebase con el conjunto de bibliotecas FlutterFire
 ## DETALLES  IMPORTANTES DEL CODIGO
 ## PACKAGES FLUTTER
 - [FLUTTER PACKAGES](https://pub.dev/flutter/packages)
