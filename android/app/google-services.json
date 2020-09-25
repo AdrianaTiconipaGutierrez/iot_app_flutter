@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "338431516414",
+    "firebase_url": "https://iot-app-flutter-prueba1.firebaseio.com",
+    "project_id": "iot-app-flutter-prueba1",
+    "storage_bucket": "iot-app-flutter-prueba1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338431516414:android:fb08af0c1e730ca0934faf",
+        "android_client_info": {
+          "package_name": "com.adriana.iot_app_prueba2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "338431516414-mmr3sv5jt2de8f1sbnjemuu52h1ua57c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtP0vyFR43TRKhXeF4SPjksECD3dA8mG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "338431516414-mmr3sv5jt2de8f1sbnjemuu52h1ua57c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338431516414:android:f15076d0661f1abe934faf",
+        "android_client_info": {
+          "package_name": "com.adriana.iot_app_prueba3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "338431516414-mmr3sv5jt2de8f1sbnjemuu52h1ua57c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtP0vyFR43TRKhXeF4SPjksECD3dA8mG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "338431516414-mmr3sv5jt2de8f1sbnjemuu52h1ua57c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338431516414:android:ac59d4bbb8642e4f934faf",
+        "android_client_info": {
+          "package_name": "com.example.iot_app_prueba1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "338431516414-mmr3sv5jt2de8f1sbnjemuu52h1ua57c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtP0vyFR43TRKhXeF4SPjksECD3dA8mG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "338431516414-mmr3sv5jt2de8f1sbnjemuu52h1ua57c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
