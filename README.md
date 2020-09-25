@@ -1,6 +1,5 @@
 # Let's build an IoT app with Flutter, Firebase & Arduino
 
-![Presentación Iot app](https://user-images.githubusercontent.com/39227411/94283294-d4a66d80-ff1e-11ea-9e63-341deba0c3cb.png)
 ![APP OIOT 1](https://user-images.githubusercontent.com/39227411/94284190-07049a80-ff20-11ea-9e23-56918348be91.png)
  
  ## APP IOT:
@@ -80,13 +79,151 @@ void loop() {
 PROBLEMA comunicación entre el microcontrolador y la aplicación de software
 
 Firebase es un conjunto de herramientas para "crear, mejorar y hacer crecer su aplicación", dichas herramientas, reemplazan gran parte de los servicios que los desarrolladores normalmente tendrían que construir ellos mismos
+
 •	Autenticación
+
 •	Cloud Messaging
-•	Firestore , Firebase real time database
+
+•	Cloud Firestore
+
+• Firebase real time database
+
 •	Cloud Storage
-•	Cloud Functions
+
+•	Cloud Functions for Firebase
+
 •	Hosting
-•	Microservicios
+
+![firebase-portada](https://user-images.githubusercontent.com/39227411/94289519-d116e480-ff26-11ea-803b-52272ee9c5e0.jpg)
+
+[`Firebase more info`](https://firebase.google.com/docs?hl=es-419)
+
+## Requerimeintos
+
+- Libreria Esp8266 [`Libreria Firebase-ESP8266`](https://github.com/mobizt/Firebase-ESP8266)
+![firebase 2 libreria](https://user-images.githubusercontent.com/39227411/94290126-cad53800-ff27-11ea-9559-ddf240ee75e6.PNG)
+
+## Codigo para la placa
+Incluimos la libreria
+ ```
+ //FirebaseESP8266.h must be included before ESP8266WiFi.h
+#include "FirebaseESP8266.h"
+
+ ```
+Configurar y declara las siguientes variables para ejecutar el ejemplo
+```
+#define FIREBASE_HOST "example.firebaseio.com"
+#define FIREBASE_AUTH "token_or_secret"
+#define WIFI_SSID "SSID"
+#define WIFI_PASSWORD "PASSWORD"
+```
+Para eso nos dirigimos a la consola de firebase 
+
+![firebase 2 secreto BD](https://user-images.githubusercontent.com/39227411/94290713-93b35680-ff28-11ea-8a55-8fd480303290.PNG)
+![firebase1](https://user-images.githubusercontent.com/39227411/94290716-94e48380-ff28-11ea-8aec-7072cdb17533.PNG)
+
+Define FirebaseESP8266 data object
+```
+FirebaseData firebaseData;
+void printJsonObjectContent(FirebaseData &data);
+FirebaseJson json;
+```
+Definimos las variables a usar
+
+```
+//RUTA 
+String path1 = "/ADRIANA";
+String path = "/";
+
+// Variables para almacenar los datos eidos por los sensores
+float humedad;
+float temperatura;
+float gas;
+
+// Pin Sensor de Humedad
+const int sensorPin = A0;
+
+// Controlar el tiempo de leer datos
+String mensaje;
+uint32_t displayTimer = 0;
+
+// Actuadores Pines
+int agua = 5; //d1
+int calor = 4; //d2
+```
+
+En SETUP colocaremos el código de configuración que se ejecutara una vez:
+```
+  Serial.begin(115200);
+
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  Serial.print("Connecting to Wi-Fi");
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    Serial.print(".");
+    delay(300);
+  }
+  Serial.println();
+  Serial.print("Connected with IP: ");
+  Serial.println(WiFi.localIP());
+  Serial.println();
+  
+//Iniciamos la conexión con firebase
+  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
+  Firebase.reconnectWiFi(true);
+  
+```
+A continuacion trabjamos en Void LOOP, donde  almacenaremos los datos recolectados por los sensores a firebase
+
+- SET Escribe o reemplaza datos en una ruta de acceso definida
+
+- UPDATE Actualiza algunas de las claves de una ruta de acceso definida sin reemplazar todos los datos
+
+- PUSH Agrega a una lista de datos en la base de datos,genera una clave única
+
+```
+  if (millis() - displayTimer >= 5000) {
+    temperatura = random(0, 100);
+    gas = random(0, 100);
+    humedad = analogRead(A0);
+// Creamos un json 
+    json.clear().addDouble("nivelDioxidoCarbono", gas).addDouble("humedad", humedad).addDouble("temperatura", temperatura);
+// Subimos los datos a firebase 
+    Firebase.setJSON(firebaseData, path1 + "/Nodos/Nodo4", json);
+    Firebase.setJSON(firebaseData, path + "Nodos/Nodo1", json);
+  }
+  ```
+
+Por ultimo se debe capturar los datos leer datos 
+```
+if (Firebase.getInt(firebaseData, "/agua/button")) {
+
+    if (firebaseData.dataType() == "int") {
+      Serial.println(firebaseData.intData());
+      digitalWrite(agua, firebaseData.intData());
+    }
+
+  } else {
+    Serial.println(firebaseData.errorReason());
+  }
+
+  if (Firebase.getInt(firebaseData, "/calor/button")) {
+
+    if (firebaseData.dataType() == "int") {
+      Serial.println(firebaseData.intData());
+      digitalWrite(calor, firebaseData.intData());
+    }
+
+  } else {
+    Serial.println(firebaseData.errorReason());
+  }
+
+```
+
+# CONEXION CON FIREBASE Y FLUTTER
+
+## Interfaz en flutter
+## 
 
 
 
