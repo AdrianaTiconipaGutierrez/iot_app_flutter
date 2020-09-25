@@ -122,17 +122,6 @@ Es un conjunto de herramientas para "crear, mejorar y hacer crecer su aplicació
 Base de datos alojada en la nube con datos almacenados como JSON. Proporciona una base de datos back-end con acceso seguro para crear aplicaciones de colaboración enriquecidas directamente desde el lado del cliente. Los datos se conservan localmente en el dispositivo mientras los eventos fuera de línea y en tiempo real continúan activándose. Cuando el dispositivo recupera la conexión a Internet, la base de datos backend en tiempo real se sincroniza automáticamente con los cambios de datos locales que ocurrieron mientras el cliente estaba fuera de línea mientras se fusiona automáticamente cualquier conflicto.
 
 [`Firebase Real Time Data Base`](https://firebase.google.com/docs/database?hl=es)
-
-
-## Requerimientos Para la placa 
-
-- Libreria Esp8266 [`Libreria Firebase-ESP8266`](https://github.com/mobizt/Firebase-ESP8266)
-
-- Agregamos la libreria en el ide
-
-![firebase 2 libreria](https://user-images.githubusercontent.com/39227411/94290126-cad53800-ff27-11ea-9559-ddf240ee75e6.PNG)
-
-## Codigo para la placa
 ANTES!!!!!!!!
 ### INICIAR CON FIREBASE
 Para eso nos dirigimos a la consola de firebase 
@@ -173,21 +162,28 @@ Para eso nos dirigimos a la consola de firebase
 - Modo Prueba
 ![rtdb 3](https://user-images.githubusercontent.com/39227411/94303162-6328e800-ff3b-11ea-939e-357b10b78dac.PNG)
 
-
+CLAVE
+![firebase1](https://user-images.githubusercontent.com/39227411/94290716-94e48380-ff28-11ea-8aec-7072cdb17533.PNG)
 
 ![firebase 2 secreto BD](https://user-images.githubusercontent.com/39227411/94290713-93b35680-ff28-11ea-8a55-8fd480303290.PNG)
 
-CLAVE
+## CODIGO ARDUINO 
+UNA VEZ inicialisamos Firebase continuamos con arduino
 
-![firebase1](https://user-images.githubusercontent.com/39227411/94290716-94e48380-ff28-11ea-8aec-7072cdb17533.PNG)
+## Requerimientos Para la placa 
+
+- Libreria Esp8266 [`Libreria Firebase-ESP8266`](https://github.com/mobizt/Firebase-ESP8266)
+
+- Agregamos la libreria en el ide
+
+![firebase 2 libreria](https://user-images.githubusercontent.com/39227411/94290126-cad53800-ff27-11ea-9559-ddf240ee75e6.PNG)
 
 ### CODIGO ARDUINO 
-UNA VEZ inicialisamos Firebase continuamos con arduino
+
 #### Incluimos la libreria
  ```
  //FirebaseESP8266.h must be included before ESP8266WiFi.h
 #include "FirebaseESP8266.h"
-
  ```
 #### Configurar y declara las siguientes variables para ejecutar el ejemplo
 ```
@@ -273,7 +269,6 @@ Se tiene las siguinetes operaciones co Real tiem data base
   }
   ```
 
-
 #### Por ultimo se debe capturar los datos que vienen de firebase real time database 
 ```
 if (Firebase.getInt(firebaseData, "/agua/button")) {
@@ -304,9 +299,8 @@ if (Firebase.getInt(firebaseData, "/agua/button")) {
 ## FLUTTER
 DESARROLLO MOVIL 
 Flutter orientado para  desarrollo de aplicaciones moviles androids and ios de forma nativa ,mucho mas rapidas y eficaces ya que todo el codigo de interfaz movil lo transfiere al lenguaje c capa mas baja en android y swift.
-
+[Flutter](https://flutter.dev/)
 ### Requerimientos
-
 - Editor de código: Android Studio o VS Code
 #### 1. Instalar SDK Flutter
 SDK de para flutter
@@ -336,13 +330,14 @@ flutter doctor
 
 ![creando app android](https://user-images.githubusercontent.com/39227411/94311280-fa486c80-ff48-11ea-8cec-38a61f5bc991.PNG)
 
-![3](https://user-images.githubusercontent.com/39227411/94302520-548e0100-ff3a-11ea-84ba-9b8423fad795.png)
 
 ## B. Agrega Firebase a tu app de Flutter
+![3](https://user-images.githubusercontent.com/39227411/94302520-548e0100-ff3a-11ea-84ba-9b8423fad795.png)
 
 [More info...](https://firebase.google.com/docs/flutter/setup?hl=es)
 
 ### B1. Crea un proyecto de Firebase
+YA LO HICIMOS!!!
 Para poder agregar Firebase a tu app de Flutter, debes crear un proyecto de Firebase y conectarlo a la app. 
 1.	Go to console
 2.	Add Project
@@ -351,7 +346,13 @@ Para poder agregar Firebase a tu app de Flutter, debes crear un proyecto de Fire
 ### B2. 	Add firebase to our app
 Android and ios
 [More info...](https://firebase.google.com/docs/flutter/setup?hl=es)
+#### ESTRUCTURA PROYECTO EN FLUTTER
 
+A nivel de proyecto el fichero más importante es pubspec.yaml. En el definiremos las dependencias con librerías de terceros o plugins para acceder al hardware del dispositivo móvil. También será el lugar para definir los assets de nuestro proyecto
+
+![Estructura](https://user-images.githubusercontent.com/39227411/94305409-1e06b500-ff3f-11ea-8fa9-25c12e34f3b4.PNG)
+
+[WIDGETS](https://flutter.dev/docs/development/ui/widgets)
 - ANDROID FOLDER ==>  APP ==> build.gradle
 
 0. defaultCConfig{
@@ -361,15 +362,14 @@ Android package name: xxxxxxxxxxxxxxx}
 2. Register app
 3. Dowload config, decargar archive “google-services.json” y copio a androidapp
 
-### B3. Definir librerias o packages a usar
+# 4. CODEAMOS EN FLUTTER
+## ESTRUCTURA PROYECTO EN FLUTTER
+
 A nivel de proyecto el fichero más importante es pubspec.yaml. En el definiremos las dependencias con librerías de terceros o plugins para acceder al hardware del dispositivo móvil. También será el lugar para definir los assets de nuestro proyecto
 
 ![Estructura](https://user-images.githubusercontent.com/39227411/94305409-1e06b500-ff3f-11ea-8fa9-25c12e34f3b4.PNG)
 
-## ESTRUCTURA PROYECTO EN FLUTTER
 [WIDGETS](https://flutter.dev/docs/development/ui/widgets)
-
-# CODEAMOS EN FLUTTER
 
 ### Archivo principal main.dart se encuentra la funcion principal main 
 
@@ -718,36 +718,12 @@ class _NodoPageState extends State<NodoPage>
 ```
 ### nodo.dart
 ```
-class Nodo {
-  final double temperatura;
-  final double humedad;
-  final double nivelDioxidoCarbono;
-
-  Nodo({this.temperatura, this.humedad, this.nivelDioxidoCarbono});
-
-  factory Nodo.fromJson(Map<dynamic, dynamic> json) {
-    double parser(dynamic source) {
-      try {
-        return double.parse(source.toString());
-      } on FormatException {
-        return -1;
-      }
-    }
-
-    return Nodo(
-      temperatura: parser(json['temperatura']),
-      humedad: parser(json['humedad']),
-      nivelDioxidoCarbono: parser(json['nivelDioxidoCarbono']),
-    );
-  }
-}
-
 ```
 - FlutterFire
 
 Flutter tiene soporte oficial para Firebase con el conjunto de bibliotecas FlutterFire
 ## DETALLES  IMPORTANTES DEL CODIGO
-## PACKAGES FLUTTER
+### REQUERIMIENTOS PACKAGES FLUTTER
 - [FLUTTER PACKAGES](https://pub.dev/flutter/packages)
 
 - [FlutterFire](https://pub.dev/packages?q=FlutterFire)
@@ -756,7 +732,6 @@ Flutter tiene soporte oficial para Firebase con el conjunto de bibliotecas Flutt
 
 ### Agregar estos paquetes a pubspec.yaml file:
 En dependencies:
-
 ```
   cupertino_icons: ^0.1.3
   firebase_core: ^0.5.0
@@ -769,11 +744,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 ```
-## CAPTURAMOS LOS DATOS 
+## 1. CAPTURAMOS LOS DATOS DE FIREBASE
 
 ### CONECTAMOS build conecta directo a firebase Real Time Database via 
 
-En lugar de usar initState()y setState() para nuestras necesidades, Flutter viene con un práctico Widget llamado StreamBuilder. Como habrás adivinado, toma una función de Stream y una de builder, llamándola cada vez que un nuevo valor es emitido por el Stream. No necesitamos initStateo dispose para eso:
+En lugar de usar initState() y setState() para nuestras necesidades, Flutter viene con un práctico Widget llamado StreamBuilder. Estetoma una función de Stream y una de builder, llamándola cada vez que un nuevo valor es emitido por el Stream. No necesitamos initState o dispose para eso.
+
 La variable snapShot contiene los datos más recientes que se recibieron del Stream. Compruebe siempre que contiene datos válidos antes de utilizarlo
 
 ```
@@ -792,11 +768,6 @@ StreamBuilder(
 
 ```
 
-### Creamos Objeto DatabaseReference para trabajar con la base de datos de firebase
-en state
-```
-DatabaseReference _nodoRef = FirebaseDatabase.instance.reference().child('SensorHumedad');
-```
 
 ### El dato de snapshot que obtenemos es tipo JSON, SE DEBE CONVERTIR EL JSON A OBJETO JSON 
 //Entonces creamos un modelo de objeto : Creo archivo nodo.dart
@@ -833,7 +804,8 @@ factory Nodo.fromJson(Map<dynamic, dynamic> json) {
       nivelDioxidoCarbono: parser(json['nivelDioxidoCarbono']),
     );
 ```
-### EN nodo_page.dart 
+### USAMOS EL MODELO NODO:  
+EN nodo_page.dart 
 - IMPOORTAMOS Nodo.dart
 ```
 import 'nodo.dart';
@@ -856,11 +828,16 @@ print("Nodo: ${_nodo.temperatura}/${}")
   },
 
 ```
-
-## TRABAJAMOS CON TAB BAR PARA MOSTRAR LOS DATOS
+## AGREGAR DATOS A Firebase realtime database
+- Se de debe crear un  Objeto DatabaseReference para trabajar con la base de datos de firebase
+En state
+```
+DatabaseReference _nodoRef = FirebaseDatabase.instance.reference().child('SensorHumedad');
+```
+## TRABAJAMOS CON TAB BAR PARA MOSTRAR LOS DATOS Y AGREGAR DATOS
 Ya capturamos la data AHORA  TRABAJAMOS para mostrar los datos usamos CON TAB BAR 
 ### 1.  se crea un TabController paar controlar el TabBar. Par esto es necesario SingleTickerProviderStateMixin.
-Usamo la keyword "with" para usar la clase como mixin
+Usamos el keyword "with" para usar la clase como mixin
 ```
 TabController _tabController;
   with SingleTickerProviderStateMixin {
@@ -934,7 +911,7 @@ StreamBuilder(
   },
 ),
 ```
-### 4. SE HACE UNA FUCNOI WIDGET  PARA MOSTRAR GRAFICA DE TEMPERATURA Y HUMEDAD
+### 4. SE HACE UNA FUNCION WIDGET  PARA MOSTRAR GRAFICA DE TEMPERATURA Y HUMEDAD
 ```
 Widget _temperaturaLayout(Nodo _nodo) {
   return Center(
@@ -948,7 +925,7 @@ Widget _humedadLayout(Nodo _nodo) {
   );
 }
 ```
-y 
+POR ULTIMO TEROMAMOS EN StreamBuilder
 ```
 return IndexedStack(
   index: tabIndex,
@@ -964,8 +941,9 @@ return IndexedStack(
 
 - [Flutter animation](https://pub.dev/packages?q=flutter+animation)
 - [Flutter animation Progress Bar](https://pub.dev/packages/flutter_animation_progress_bar)
+
 ### Modificamos el pubspec.yaml
-COPIAMOS AEN EL archivo pubspec.yaml
+COPIAMOS en  EL archivo pubspec.yaml
 ```
 flutter_animation_progress_bar: ^1.0.5 
 ```
@@ -997,4 +975,7 @@ USAMOS CWIDGET COLUMNA PARA INSERTAR Txt-FAProgressBar-Text y widget eEXPANDED P
             ),
           ),
 ```
-
+# RECOMENDACIOENS
+ - Cloud functions
+ Push notifications
+ 
